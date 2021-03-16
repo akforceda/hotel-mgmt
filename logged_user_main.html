@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<title>resto-marriot</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+<style>
+body,h1,h5 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+  background-image: url('https://i.pinimg.com/originals/5c/f3/dc/5cf3dc9b57ad28bc6434f828e11fd83f.jpg');
+  min-height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+.hotel-logo {
+  text-transform: uppercase;
+	background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size: 80px;
+}
+</style>
+<body>
+
+<div class="bgimg w3-display-container w3-text-white">
+  <div class="w3-display-middle w3-jumbo">
+    <p class="hotel-logo">RESTO MARRIOT</p>
+  </div>
+  <div class="w3-display-topright w3-container w3-xlarge" style="color: black;">
+    <header class="w3-container w3-xlarge">
+      <p class="w3-right">
+        <button onclick="document.getElementById('cart').style.display='block'" class="w3-button w3-black">cart <i class="fa fa-shopping-cart w3-margin-right"></i></button></p>
+      </p>
+    </header>
+  </div>
+  <div class="w3-display-topleft w3-container w3-xlarge">
+    <p><button onclick="document.getElementById('menu').style.display='block'" class="w3-button w3-black">menu</button></p>
+    <p><button onclick="document.getElementById('book-table').style.display='block'" class="w3-button w3-black">book table</button></p>
+    <p><button onclick="document.getElementById('about').style.display='block'" class="w3-button w3-black">about us</button></p>
+    <p><button onclick="mainApp.logout()" class="w3-button w3-black">logout</button></p>
+  </div>
+</div>
+
+<!-- Menu Modal -->
+<div id="menu" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom" style="border: 5px solid teal;">
+    <div class="w3-container w3-black w3-display-container">
+      <span onclick="document.getElementById('menu').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <h1 style="color: teal;">Starters</h1>
+    </div>
+    <div class="w3-container">
+      <h5>Tomato Soup 300ml -<b> 80 rs -</b> Quantity:<input type="number"><button onclick="increment()">+</button></h5>
+      <h5>Basil Soup 300ml <b>67 rs</b></h5>
+      <h5>Bread and Butter 1pc <b>15 rs</b></h5>
+    </div>
+    <div class="w3-container w3-black">
+      <h1 style="color: teal;">Main Courses</h1>
+    </div>
+    <div class="w3-container">
+      <h5>Grilled Sandwich and Potatoes <b>80 rs</b></h5>
+      <h5>Italian Pizza - 8 Inch <b>150 rs</b></h5>
+      <h5>Veggie Pasta 200gm <b>120 rs</b></h5>
+      <h5>Veg Burger (Medium) <b>60 rs</b></h5>
+      <h5>Deluxe Burger (XL) <b>120 rs</b></h5>
+    </div>
+    <div class="w3-container w3-black">
+      <h1 style="color: teal;">Desserts</h1>
+    </div>
+    <div class="w3-container">
+      <h5>Fruit Salad <b>90 rs</b></h5>
+      <h5>Ice cream 200ml <b>85 rs</b></h5>
+      <h5>Chocolate Cake (Dark Truffle) <b>90 rs</b></h5>
+      <h5>Falooda 300ml <b>90 rs</b></h5>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div id="book-table" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom" style="border: 5px solid teal;">
+    <div class="w3-container w3-black">
+      <span onclick="document.getElementById('book-table').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <h1 style="color: teal;">Book - A - Table</h1>
+    </div>
+    <div class="w3-container">
+      <h3>Reserve a table, ask for today's special or just send us a message:</h3>
+      <h3>available tables 10</h3>
+      <form action="/action_page.php" target="_blank">
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="How many people" required name="People"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time" required name="date" value="2020-11-16T20:00"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Message \ Special requirements" required name="Message"></p>
+        <p><button class="w3-button" type="submit">SEND MESSAGE</button></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- cart -->
+<div id="cart" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom" style="border: 5px solid teal;">
+    <div class="w3-container w3-black w3-display-container">
+      <div>  
+        <div class="w3-container w3-black">
+          <span onclick="document.getElementById('cart').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+          <h1 style="color: teal;">Your cart</h1>
+        </div>
+        <div class="w3-container">
+          <h5>Fruit Salad <b>90 rs</b></h5>
+          <h5>Ice cream 200ml <b>85 rs</b></h5>
+          <h5>Chocolate Cake (Dark Truffle) <b>90 rs</b></h5>
+          <h5>Falooda 300ml <b>90 rs</b></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div id="about" class="w3-modal">
+  <div class="w3-modal-content w3-animate-zoom" style="border: 5px solid teal;">
+    <div class="w3-container w3-black w3-display-container">
+      <div>  
+        <div class="w3-container w3-black">
+          <span onclick="document.getElementById('about').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+          <h1 style="color: teal;">About us</h1>
+        </div>
+        <div class="w3-container">
+          <p class="w3-xlarge">Resto Marriot was established in 1999</p>
+          <p class="w3-xlarge">our timings :-</p>
+          <p class="w3-xlarge">monday - friday 10:00-23:00 | saturday 14:00-02:00</p>
+          <p class="w3-large">69-Altmount, Mumbai-88</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="firebase.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
+
